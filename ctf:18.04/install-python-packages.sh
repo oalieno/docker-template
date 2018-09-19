@@ -13,5 +13,17 @@ pip install mersenne-twister-predictor
 pip install hashpumpy
 pip install git+https://github.com/elliptic-shiho/primefac-fork@master
 pip install git+https://github.com/p4-team/crypto-commons.git
+pip install git+https://github.com/ReFirmLabs/binwalk.git
+pip install git+https://github.com/OAlienO/crytools.git
+
+pyenv global 2.7.15
+
+pip install --upgrade pip
+pip install pwntools
+pip install angr
 
 pyenv global system
+
+pip install --upgrade pip
+pip install git+https://github.com/OAlienO/remote.git
+pip3 install --upgrade pip

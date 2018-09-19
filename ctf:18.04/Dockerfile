@@ -19,10 +19,19 @@ RUN apt-get update && \
     zsh \
     tmux \
     gdb \
-    zlib1g-dev libffi-dev libbz2-dev libreadline-dev sqlite3 libsqlite3-dev libssl-dev libncurses5 libncurses5-dev libncursesw5 \
-    libgmp-dev libmpfr-dev libmpc-dev \
+    strace \
+    ltrace \
     sagemath \
     locales \
+    ruby-dev \
+    dnsutils \
+    netcat \
+    nmap \
+    nasm \
+    net-tools \
+    libcurl4-gnutls-dev \
+    zlib1g-dev libffi-dev libbz2-dev libreadline-dev sqlite3 libsqlite3-dev libssl-dev libncurses5 libncurses5-dev libncursesw5 \
+    libgmp-dev libmpfr-dev libmpc-dev \
     && rm -rf /var/lib/apt/lists/*
 RUN locale-gen --lang en_US.UTF-8
 
@@ -36,13 +45,6 @@ RUN chmod +x ./install-pyenv.sh && \
 # install gdb pwndbg
 RUN git clone https://github.com/longld/peda.git && git clone https://github.com/scwuaptx/Pwngdb.git && \
     cp Pwngdb/.gdbinit .
-
-# install python packages ( pwntools, pycrypto, ... )
-COPY install-python-packages.sh .
-RUN chmod +x ./install-python-packages.sh && \
-    sync && \
-    ./install-python-packages.sh && \
-    rm install-python-packages.sh
 
 # install oh my zsh
 COPY install-zsh.sh .
@@ -62,3 +64,21 @@ COPY .vimrc .
 RUN curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 RUN vim +'PlugInstall --sync' +qa
 RUN cd ~/.vim/plugged/youcompleteme && ./install.py
+
+# install python packages ( pwntools, pycrypto, ... )
+COPY install-python-packages.sh .
+RUN chmod +x ./install-python-packages.sh && \
+    sync && \
+    ./install-python-packages.sh && \
+    rm install-python-packages.sh
+
+# install some tools
+COPY install-tools.sh .
+RUN chmod +x ./install-tools.sh && \
+    sync && \
+    ./install-tools.sh && \
+    rm install-tools.sh
+
+# snippets
+COPY python.snippets .
+RUN mkdir -p .vim/my-snippets/UltiSnips && mv python.snippets .vim/my-snippets/UltiSnips
